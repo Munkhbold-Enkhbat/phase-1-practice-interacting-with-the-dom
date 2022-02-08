@@ -6,12 +6,14 @@ function timerSet() {
   counter.textContent = seconds
 }
 
-let startTimer = setInterval(timerSet, 1000)
+let startTimer = 0
+startTimer = setInterval(timerSet, 1000)
 
 const plus = document.getElementById('plus')
 const minus = document.getElementById('minus')
 const pause = document.getElementById('pause')
 const heart = document.getElementById('heart')
+let flagPaused = 'resumed'
 
 startTimer
 plus.addEventListener('click', () => {
@@ -25,18 +27,20 @@ minus.addEventListener('click', () => {
 })
 
 pause.addEventListener('click', () => {
-  // if (pause.textContent === 'pause') {
+  if (flagPaused == 'resumed') {
     clearTimeout(startTimer)
     plus.disabled = true
     minus.disabled = true
     heart.disabled = true
     pause.textContent = 'resume'
-  // } else {
-    
-  //   pause.textContent = 'pause'
-  //   plus.disabled = false
-  //   minus.disabled = false
-  //   heart.disabled = false
-  // }
+    flagPaused = 'paused'
 
+  } else if (flagPaused == 'paused') {
+    pause.textContent = 'pause'
+    flagPaused = 'resumed'
+    plus.disabled = false
+    minus.disabled = false
+    heart.disabled = false
+    startTimer = setInterval(timerSet, 1000)
+  }
 })
